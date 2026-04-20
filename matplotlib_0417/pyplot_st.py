@@ -95,4 +95,47 @@ ax[1,0].plot(x,y)
 # [1,1]에 2D 이미지 그리기
 z = np.random.uniform(0,1,(5,5))
 ax[1,1].imshow(z)
+
+
 # %%
+# 0420 이어서 수업 
+# 다양한 차트 그리기
+
+# scatter() 산점도 
+x = np.random.rand(30)
+y = np.random.rand(30)
+area = (30*np.random.rand(30))**2  # 점의 면적
+colors = np.random.rand(30)  # 점의 색상
+plt.scatter(x,y,s=area,c=colors,alpha=0.5)  # alpha: 투명도 
+# %%
+# bar() 막대차트
+x = np.arange(3)
+years = ['2010','2011','2012']
+domestic = [6801,7695,8010]
+foreign = [777,1046,1681]
+plt.bar(x,domestic) # width = o.25 막대 너비 조정(원래 크기의 25%)
+plt.bar(x,foreign)
+plt.xticks(x,years)
+# %%
+# barh() 수평막대차트 
+plt.barh(x,domestic,height=0.25)
+plt.barh(x+0.3,foreign,height=0.25) # x+0.3 두 막대 겹치지 않게 조정 
+plt.yticks(x,years)
+# %%
+# hist() 히스토그램
+f1 = np.random.normal(loc=0,scale=1,size=10000)
+plt.hist(f1,bins=200,color='red',alpha=0.5)
+# %%
+# pie() 파이차트
+data = [5,4,6,11]
+clist = ['cyan','gray','orange','red']
+plt.pie(data,autopct='%.2f',colors=clist)
+# %%
+# 히트맵
+data = np.random.random((10,10))
+plt.imshow(data)
+plt.colorbar()
+# %%
+# boxplot() 상자 수염
+rand_data = np.random.randn(100)
+plt.boxplot(rand_data)
