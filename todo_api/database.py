@@ -20,7 +20,7 @@ SessionLocal = sessionmaker(
 #4. Base 생성(테이블 클래스 만들 때 상속받는 기본 클래스)
 Base = declarative_base()
 
-# 라우터에서 DB 세션 쉡게 받도록 하는 함수
+# 라우터에서 DB 세션 쉽게 받도록 하는 함수
 def get_db():  # 요청마다 세션을 만들고 닫아주는 관리 
     db = SessionLocal() # db: 실제 DB작업을 하는 세션 객체
     try:
