@@ -1,6 +1,7 @@
 # POST/GET/GET{id}/PATCH/DELETE /todos
+## 5/2 과제 제출 후 수정: is_done과 priority 필터 추가 
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
@@ -68,9 +69,30 @@ def create_todo(
     return new_todo
 
 # 전체 조회 API, 리스트로 반환 
+
+## 기존 코드 -> 전체 조회만 가능 
+# @router.get("", response_model=list[schemas.TodoResponse])
+# def read_todos(db: Session = Depends(get_db)):
+#     return db.query(models.Todo).all()
+
+## 수정 코드 -> is_done과 priority 필터 추가
 @router.get("", response_model=list[schemas.TodoResponse])
-def read_todos(db: Session = Depends(get_db)):
-    return db.query(models.Todo).all()
+def read_todos(
+    is_done: bool | None = Query(None, description="True : 완료"),
+    priority: int | None = Query(None, ge=1, le=3, description="1: 우선 순위 높음"),
+    db: Session = Depends(get_db),
+):
+    query = db.query(models.Todo)
+
+    if is_done is not None:
+        query = query.filter(models.Todo.is_done == is_done)
+
+    if priority is not None:
+        query = query.filter(models.Todo.priority == priority)
+
+    return query.all()
+
+
 
 # 단건 조회 API 
 @router.get("/{todo_id}", response_model=schemas.TodoResponse)
